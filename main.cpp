@@ -1,2 +1,6 @@
-#include "iostream"
+#include "include/Menu/menu.h"
 
+int main() {
+  run_menu();
+  return 0;
+}
