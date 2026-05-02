@@ -59,12 +59,4 @@ public:
   }
 };
 
-template <class T>
-class IEnumerable {
-public:
-  virtual EnumeratorWrapper<T> get_enumerator() const = 0;
-
-  virtual ~IEnumerable() {}
-};
-
 #endif // LABORATORYWORK2_IENUMERATOR_H
