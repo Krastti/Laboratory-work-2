@@ -882,6 +882,19 @@ void test_invalid_arguments() {
   assert(lengthThrown);
 }
 
+void test() {
+  BitSequence seq;
+  seq.append(false);
+  seq.append(true);
+
+  const bool& r1 = seq.get(0);
+  const bool& r2 = seq.get(1);
+
+  assert(r1 == false);
+  assert(r2 == true);
+  assert(false);
+}
+
 void run() {
   test_empty_bit_sequence_contract();
   test_sequence_interface_operations();
@@ -889,6 +902,7 @@ void run() {
   test_bit_reference_and_copying();
   test_bitwise_operations();
   test_invalid_arguments();
+  test();
 
   std::cout << "BitSequence tests passed\n";
 }
