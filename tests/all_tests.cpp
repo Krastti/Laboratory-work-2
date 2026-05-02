@@ -886,13 +886,15 @@ void test() {
   BitSequence seq;
   seq.append(false);
   seq.append(true);
+  seq.append(false);
 
   const bool& r1 = seq.get(0);
   const bool& r2 = seq.get(1);
+  const bool& r3 = seq.get(2);
 
   assert(r1 == false);
   assert(r2 == true);
-  assert(false);
+  assert(r3 == false);
 }
 
 void run() {
