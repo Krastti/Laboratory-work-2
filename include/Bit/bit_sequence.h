@@ -7,13 +7,14 @@ class BitSequence : public Sequence<bool> {
 private:
   DynamicArray<unsigned char> data;
   int bitCount;
-  mutable bool cachedValue;
+  mutable DynamicArray<bool> cachedValues;
 
   static int bytes_needed(int bitCount);
 
   bool get_bit(int index) const;
   void set_bit(int index, bool value);
   void clear_unused_bits();
+  void rebuild_cache();
 
 protected:
   void sys_append(const bool &item) override;
