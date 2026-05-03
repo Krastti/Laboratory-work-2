@@ -16,7 +16,7 @@ Sequence<T>* Sequence<T>::get_sub_sequence(int startIndex, int endIndex) const {
   if (endIndex >= length) throw std::out_of_range("Индекс вне допустимого диапазона");
   if (startIndex > endIndex) throw std::out_of_range("Индекс вне допустимого диапазона");
 
-  Sequence<T>* result = sys_empty_clone();
+  Sequence<T>* result = new_empty_instance();
   EnumeratorWrapper<T> iter = get_enumerator();
   int index = 0;
 
@@ -42,7 +42,7 @@ Sequence<T>* Sequence<T>::get_sub_sequence(int startIndex, int endIndex) const {
 
 template <class T>
 Sequence<T>* Sequence<T>::concat(const Sequence<T> &other) const {
-  Sequence<T>* result = sys_empty_clone();
+  Sequence<T>* result = new_empty_instance();
   EnumeratorWrapper<T> firstIter = get_enumerator();
 
   while (firstIter.move_next()) {
@@ -62,7 +62,7 @@ template <class T>
 Sequence<T>* Sequence<T>::map(T (*func)(const T &item)) const {
   if (func == nullptr) throw std::invalid_argument("Нельзя выполнить map с нулевой функцией");
 
-  Sequence<T>* result = sys_empty_clone();
+  Sequence<T>* result = new_empty_instance();
   EnumeratorWrapper<T> iter = get_enumerator();
 
   while (iter.move_next()) {
@@ -76,7 +76,7 @@ template <class T>
 Sequence<T>* Sequence<T>::map(T (*func)(const T &item, int index)) const {
   if (func == nullptr) throw std::invalid_argument("Нельзя выполнить map с нулевой функцией");
 
-  Sequence<T>* result = sys_empty_clone();
+  Sequence<T>* result = new_empty_instance();
   EnumeratorWrapper<T> iter = get_enumerator();
   int index = 0;
 
@@ -92,7 +92,7 @@ template <class T>
 Sequence<T>* Sequence<T>::where(bool (*predicate)(const T &element)) const {
   if (predicate == nullptr) throw std::invalid_argument("Нельзя выполнить where с нулевым предикатом");
 
-  Sequence<T>* result = sys_empty_clone();
+  Sequence<T>* result = new_empty_instance();
   EnumeratorWrapper<T> iter = get_enumerator();
 
   while (iter.move_next()) {
@@ -132,7 +132,7 @@ void ArraySequence<T>::sys_append(const T &item) {
 }
 
 template <class T>
-Sequence<T>* ArraySequence<T>::sys_empty_clone() const {
+Sequence<T>* ArraySequence<T>::new_empty_instance() const {
   return empty_clone();
 }
 
@@ -337,7 +337,7 @@ void ListSequence<T>::sys_append(const T &item) {
 }
 
 template <class T>
-Sequence<T>* ListSequence<T>::sys_empty_clone() const {
+Sequence<T>* ListSequence<T>::new_empty_instance() const {
   return empty_clone();
 }
 

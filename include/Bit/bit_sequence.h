@@ -18,7 +18,7 @@ private:
 
 protected:
   void sys_append(const bool &item) override;
-  Sequence<bool>* sys_empty_clone() const override;
+  Sequence<bool>* new_empty_instance() const override;
 
 public:
   /*

@@ -9,7 +9,7 @@ template <class T>
 class Sequence {
 protected:
   virtual void sys_append(const T &item) = 0;
-  virtual Sequence<T>* sys_empty_clone() const = 0;
+  virtual Sequence<T>* new_empty_instance() const = 0;
 
 public:
   virtual const T& get_first() const = 0;
@@ -48,7 +48,7 @@ protected:
   int count;
 
   void sys_append(const T &item) override;
-  Sequence<T>* sys_empty_clone() const override;
+  Sequence<T>* new_empty_instance() const override;
 
   virtual ArraySequence<T>* instance() = 0;
   virtual ArraySequence<T>* empty_clone() const = 0;
@@ -125,7 +125,7 @@ protected:
   LinkedList<T> list;
 
   void sys_append(const T &item) override;
-  Sequence<T>* sys_empty_clone() const override;
+  Sequence<T>* new_empty_instance() const override;
 
   virtual ListSequence<T>* instance() = 0;
   virtual ListSequence<T>* empty_clone() const = 0;

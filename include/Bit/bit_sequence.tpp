@@ -64,7 +64,7 @@ inline void BitSequence::sys_append(const bool &item) {
   set_bit(bitCount - 1, item);
 }
 
-inline Sequence<bool>* BitSequence::sys_empty_clone() const {
+inline Sequence<bool>* BitSequence::new_empty_instance() const {
   return new BitSequence();
 }
 
