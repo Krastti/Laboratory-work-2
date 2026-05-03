@@ -7,14 +7,16 @@ class BitSequence : public Sequence<bool> {
 private:
   DynamicArray<unsigned char> data;
   int bitCount;
-  mutable DynamicArray<bool> cachedValues;
+
+  inline static const bool TRUE = true;
+  inline static const bool FALSE = false;
 
   static int bytes_needed(int bitCount);
 
   bool get_bit(int index) const;
+  const bool& get_bit_reference(int index) const;
   void set_bit(int index, bool value);
   void clear_unused_bits();
-  void rebuild_cache();
 
 protected:
   void sys_append(const bool &item) override;
@@ -71,10 +73,9 @@ public:
   private:
     const BitSequence* sequence;
     int index;
-    mutable bool current;
 
   public:
-    Enumerator(const BitSequence* sequence) : sequence(sequence), index(-1), current(false) {}
+    Enumerator(const BitSequence* sequence) : sequence(sequence), index(-1) {}
 
     bool move_next() override {
       index++;
@@ -82,8 +83,7 @@ public:
     }
 
     const bool& get_current() const override {
-      current = sequence->get(index);
-      return current;
+      return sequence->get(index);
     }
 
     void reset() override {

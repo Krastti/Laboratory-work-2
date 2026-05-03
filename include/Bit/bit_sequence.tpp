@@ -12,6 +12,14 @@ inline bool BitSequence::get_bit(int index) const {
   return ((byte >> (index % 8)) & 1) != 0;
 }
 
+inline const bool& BitSequence::get_bit_reference(int index) const {
+  if (get_bit(index)) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 inline void BitSequence::set_bit(int index, bool value) {
   int byteIndex = index / 8;
   int bitIndex = index % 8;
@@ -25,10 +33,6 @@ inline void BitSequence::set_bit(int index, bool value) {
   }
 
   data.set(byteIndex, byte);
-
-  if (index < cachedValues.get_size()) {
-    cachedValues.set(index, value);
-  }
 }
 
 inline void BitSequence::clear_unused_bits() {
@@ -42,14 +46,6 @@ inline void BitSequence::clear_unused_bits() {
   data.set(lastByteIndex, static_cast<unsigned char>(data.get(lastByteIndex) & mask));
 }
 
-inline void BitSequence::rebuild_cache() {
-  cachedValues.resize(bitCount);
-
-  for (int i = 0; i < bitCount; i++) {
-    cachedValues.set(i, get_bit(i));
-  }
-}
-
 inline void BitSequence::sys_append(const bool &item) {
   int newCount = bitCount + 1;
   int newBytes = bytes_needed(newCount);
@@ -59,7 +55,6 @@ inline void BitSequence::sys_append(const bool &item) {
     data.set(newBytes - 1, 0);
   }
 
-  cachedValues.resize(newCount);
   bitCount = newCount;
   set_bit(bitCount - 1, item);
 }
@@ -84,9 +79,9 @@ inline BitSequence::BitReference::operator bool() const {
   return sequence->get_bit(index);
 }
 
-inline BitSequence::BitSequence() : data(), bitCount(0), cachedValues() {}
+inline BitSequence::BitSequence() : data(), bitCount(0) {}
 
-inline BitSequence::BitSequence(const bool* items, int count) : data(bytes_needed(count)), bitCount(count), cachedValues(count) {
+inline BitSequence::BitSequence(const bool* items, int count) : data(bytes_needed(count)), bitCount(count) {
   if (count < 0) throw std::out_of_range("Размер должен быть больше, либо равен нулю!");
   if (count > 0 && items == nullptr) throw std::invalid_argument("Нельзя создать BitSequence из нулевого указателя");
 
@@ -101,15 +96,13 @@ inline BitSequence::BitSequence(const bool* items, int count) : data(bytes_neede
   }
 }
 
-inline BitSequence::BitSequence(const BitSequence &other)
-  : data(other.data), bitCount(other.bitCount), cachedValues(other.cachedValues) {}
+inline BitSequence::BitSequence(const BitSequence &other) : data(other.data), bitCount(other.bitCount) {}
 
 inline BitSequence& BitSequence::operator=(const BitSequence &other) {
   if (this == &other) return *this;
 
   data = other.data;
   bitCount = other.bitCount;
-  cachedValues = other.cachedValues;
 
   return *this;
 }
@@ -117,20 +110,20 @@ inline BitSequence& BitSequence::operator=(const BitSequence &other) {
 inline const bool& BitSequence::get_first() const {
   if (bitCount == 0) throw std::out_of_range("Индекс вне допустимого диапазона");
 
-  return cachedValues.get(0);
+  return get_bit_reference(0);
 }
 
 inline const bool& BitSequence::get_last() const {
   if (bitCount == 0) throw std::out_of_range("Индекс вне допустимого диапазона");
 
-  return cachedValues.get(bitCount - 1);
+  return get_bit_reference(bitCount - 1);
 }
 
 inline const bool& BitSequence::get(int index) const {
   if (index >= bitCount) throw std::out_of_range("Индекс вне допустимого диапазона");
   if (index < 0) throw std::out_of_range("Индекс вне допустимого диапазона");
 
-  return cachedValues.get(index);
+  return get_bit_reference(index);
 }
 
 inline const bool& BitSequence::operator[](int index) const {
@@ -205,7 +198,6 @@ inline Sequence<bool>* BitSequence::insert_at(const bool &item, int index) {
   int newBytes = bytes_needed(newCount);
 
   data.resize(newBytes);
-  cachedValues.resize(newCount);
 
   for (int i = 0; i < newBytes; i++) {
     data.set(i, 0);
@@ -240,14 +232,12 @@ inline BitSequence* BitSequence::bit_and(const BitSequence* other) const {
 
   result->data.resize(bytes);
   result->bitCount = bitCount;
-  result->cachedValues.resize(bitCount);
 
   for (int i = 0; i < bytes; i++) {
     result->data.set(i, static_cast<unsigned char>(data.get(i) & other->data.get(i)));
   }
 
   result->clear_unused_bits();
-  result->rebuild_cache();
   return result;
 }
 
@@ -260,14 +250,12 @@ inline BitSequence* BitSequence::bit_or(const BitSequence* other) const {
 
   result->data.resize(bytes);
   result->bitCount = bitCount;
-  result->cachedValues.resize(bitCount);
 
   for (int i = 0; i < bytes; i++) {
     result->data.set(i, static_cast<unsigned char>(data.get(i) | other->data.get(i)));
   }
 
   result->clear_unused_bits();
-  result->rebuild_cache();
   return result;
 }
 
@@ -280,14 +268,12 @@ inline BitSequence* BitSequence::bit_xor(const BitSequence* other) const {
 
   result->data.resize(bytes);
   result->bitCount = bitCount;
-  result->cachedValues.resize(bitCount);
 
   for (int i = 0; i < bytes; i++) {
     result->data.set(i, static_cast<unsigned char>(data.get(i) ^ other->data.get(i)));
   }
 
   result->clear_unused_bits();
-  result->rebuild_cache();
   return result;
 }
 
@@ -297,13 +283,11 @@ inline BitSequence* BitSequence::bit_not() const {
 
   result->data.resize(bytes);
   result->bitCount = bitCount;
-  result->cachedValues.resize(bitCount);
 
   for (int i = 0; i < bytes; i++) {
     result->data.set(i, static_cast<unsigned char>(~data.get(i)));
   }
 
   result->clear_unused_bits();
-  result->rebuild_cache();
   return result;
 }
