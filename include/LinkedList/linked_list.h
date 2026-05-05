@@ -19,6 +19,7 @@ private:
   const Node* node_at(int index) const;
   
   class Enumerator : public IEnumerator<T> {
+
   private:
     Node* head;
     Node* current;
