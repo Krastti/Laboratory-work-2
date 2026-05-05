@@ -2,16 +2,14 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "../include/Bit/bit_sequence.h"
-#include "../include/DynamicArray/dynamic_array.h"
-#include "../include/Iterator/ienumerator.h"
-#include "../include/LinkedList/linked_list.h"
 #include "../include/Sequence/sequence.h"
+#include "../include/Bit/bit_sequence.h"
+#include "../include/Sequence/list_sequence.h"
+#include "../include/Sequence/array_sequence.h"
 
 namespace {
 
 void print_test_menu() {
-  std::cout << "\n==== Laboratory Work 2 Tests ====\n";
   std::cout << "1. DynamicArray tests\n";
   std::cout << "2. LinkedList tests\n";
   std::cout << "3. Sequence tests\n";
@@ -929,7 +927,7 @@ void run_all_tests() {
   sequence_tests::run();
   bit_sequence_tests::run();
 
-  std::cout << "All tests passed\n";
+  std::cout << "All tests passed\n\n";
 }
 
 }
@@ -952,9 +950,9 @@ int main() {
     } else if (choice == 5) {
       run_all_tests();
     } else if (choice == 0) {
-      std::cout << "Выход\n";
+      std::cout << "Exit\n";
     } else {
-      std::cout << "Неправильное значение!\n";
+      std::cout << "Invalid argument!\n";
     }
   }
 

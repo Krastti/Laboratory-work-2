@@ -81,4 +81,6 @@ public:
   ~ImmutableListSequence() {}
 };
 
+#include "list_sequence.tpp"
+
 #endif // LABORATORYWORK2_LIST_SEQUENCE_H

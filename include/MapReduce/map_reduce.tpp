@@ -1,5 +1,7 @@
 #include <stdexcept>
 #include "map_reduce.h"
+#include "../Sequence/array_sequence.h"
+#include "../Sequence/list_sequence.h"
 
 template <class TFirst, class TSecond>
 Pair<TFirst, TSecond>::Pair() : firstValue(), secondValue() {}
