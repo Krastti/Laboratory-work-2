@@ -71,8 +71,6 @@ public:
 
   LinkedList<T>* concat(const LinkedList<T>* other);
 
-  // TODO Перенести класс Enumerator в private
-
   EnumeratorWrapper<T> get_enumerator() const {
     return EnumeratorWrapper<T>(new Enumerator(head));
   }
