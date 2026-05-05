@@ -2,6 +2,7 @@
 #define LABORATORYWORK2_BIT_SEQUENCE_H
 
 #include "../Sequence/sequence.h"
+#include "../DynamicArray/dynamic_array.h"
 
 class BitSequence : public Sequence<bool> {
 private:

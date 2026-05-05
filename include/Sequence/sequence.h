@@ -2,6 +2,7 @@
 #define LABORATORYWORK2_SEQUENCE_H
 
 #include "../Option/option.h"
+#include "../Iterator/ienumerator.h"
 
 template <class T>
 class Sequence {
