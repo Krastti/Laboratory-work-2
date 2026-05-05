@@ -17,29 +17,7 @@ private:
 
   Node* node_at(int index);
   const Node* node_at(int index) const;
-
-public:
-  LinkedList();
-  LinkedList(T* items, int count);
-  LinkedList(const LinkedList<T> &other);
-
-  LinkedList<T>& operator=(const LinkedList<T> &other);
-
-  const T& get_first() const;
-  const T& get_last() const;
-  const T* get(int index) const;
-  const T& operator[](int index) const;
-  T& operator[](int index);
-  int get_length() const;
-
-  LinkedList<T>* get_sub_list(int startIndex, int endIndex);
-
-  void append(const T& item);
-  void prepend(const T& item);
-  void insert_at(const T& item, int index);
-
-  LinkedList<T>* concat(const LinkedList<T>* other);
-
+  
   class Enumerator : public IEnumerator<T> {
   private:
     Node* head;
@@ -69,6 +47,30 @@ public:
       started = false;
     }
   };
+
+public:
+  LinkedList();
+  LinkedList(T* items, int count);
+  LinkedList(const LinkedList<T> &other);
+
+  LinkedList<T>& operator=(const LinkedList<T> &other);
+
+  const T& get_first() const;
+  const T& get_last() const;
+  const T* get(int index) const;
+  const T& operator[](int index) const;
+  T& operator[](int index);
+  int get_length() const;
+
+  LinkedList<T>* get_sub_list(int startIndex, int endIndex);
+
+  void append(const T& item);
+  void prepend(const T& item);
+  void insert_at(const T& item, int index);
+
+  LinkedList<T>* concat(const LinkedList<T>* other);
+
+  // TODO Перенести класс Enumerator в private
 
   EnumeratorWrapper<T> get_enumerator() const {
     return EnumeratorWrapper<T>(new Enumerator(head));

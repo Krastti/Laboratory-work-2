@@ -1,7 +1,6 @@
 #include <stdexcept>
 #include "sequence.h"
 
-// TODO Необходимо улучшить оптимизацию данной функции
 /*
  * Если создать последовательно размером миллион и взять элемент с 900000 до 900001, то нынешний алгоритм
  * пройдется по всей последовательность до 900000
@@ -87,6 +86,13 @@ Sequence<T>* Sequence<T>::map(T (*func)(const T &item, int index)) const {
 
   return result;
 }
+
+//template <class T, class T2>
+//Sequence<T2>* Sequence<T>::map(T2 (*func)(const T &item)) const {
+//  if (func == nullptr) throw std::invalid_argument("Нельзя выполнить map с нулевой функцией");
+//
+//
+//}
 
 template <class T>
 Sequence<T>* Sequence<T>::where(bool (*predicate)(const T &element)) const {

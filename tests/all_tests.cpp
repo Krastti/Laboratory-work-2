@@ -201,6 +201,17 @@ void test_enumerator() {
   assert(iter.get_current() == 3);
 }
 
+/*
+void test() {
+  MutableArraySequence<int> array;
+
+  // array.append(0).append(1);
+
+  assert(array.get(0) == 0);
+  assert(array.get(1) == 1);
+}
+*/
+
 void run() {
   test_default_constructor();
   test_constructor_from_items();
@@ -210,6 +221,7 @@ void run() {
   test_resize_grow_and_shrink();
   test_invalid_indexes_and_sizes();
   test_enumerator();
+  test();
 
   std::cout << "DynamicArray tests passed\n";
 }
